@@ -1,12 +1,19 @@
-import React,{useContext} from 'react';
-import { Route, redirect } from 'react-router-dom';
+import React,{useContext, useEffect} from 'react';
+import { Route, redirect, useNavigate} from 'react-router-dom';
 import { AuthContext } from '../Context/AuthContext';
+import Feed from './Feed';
 
-export default function PrivateRoute ({component:Component,...rest}) {
+export default function PrivateRoute () {                  //{component:Component,...rest}
     const {user} = useContext(AuthContext);
+   const navigate = useNavigate();
+   useEffect(()=>{
+    if(!user){
+        navigate('/login')
+    }
+   })
     return (
-        <Route {...rest} render={props =>{
-            return user ? <Component {...props}/> : redirect('/login')
-        }}/>
+        <Feed/>  
     )
 }
+
+
